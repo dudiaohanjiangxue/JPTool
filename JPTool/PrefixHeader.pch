@@ -1,0 +1,76 @@
+//
+//  PrefixHeader.pch
+//  JPTool
+//
+//  Created by KC on 16/9/8.
+//  Copyright © 2016年 KC. All rights reserved.
+//
+
+/*
+ 
+ 1.存放公用宏
+ 2.存放公用头文件
+ 3.自定义Log
+ 
+ 使用pch,提前编译
+ 
+ */
+
+#define CJPAFNWriteToPlist(filename) [responseObject writeToFile:[NSString stringWithFormat:@"/Users/xiaomage/Desktop/%@.plist", @#filename] atomically:YES];
+
+#define REDPACKET_AVALABLE
+
+/*****OC的公共头文件****************/
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "UIView+JPAdd.h"
+
+#endif
+/*****颜色****************/
+#define CJPColor(r, g, b) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:1]
+#define CJPRandomColor CJPColor(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255))
+
+
+/*****自定义LOG****************/
+#ifdef DEBUG // 调试
+//自定义日志
+#define CJPLog(...) NSLog(@"%s %d \n %@\n\n",__func__,__LINE__,[NSString stringWithFormat:__VA_ARGS__])
+#else // 发布
+#define CJPLog(...)
+#endif
+
+#define CJPFunc CJPLog(@"%s",__func__);
+
+/*****判断是真机还是模拟器****************/
+#if TARGET_OS_IPHONE
+//iPhone Device
+#endif
+
+#if TARGET_IPHONE_SIMULATOR
+//iPhone Simulator
+#endif
+
+/*****屏幕适配****************/
+
+#define CJPScreenWidth [UIScreen mainScreen].bounds.size.width
+#define CJPScreenHight [UIScreen mainScreen].bounds.size.height
+
+#define CJP_iPhone6P ([UIScreen mainScreen].bounds.size.height == 736)
+#define CJP_iPhone6 ([UIScreen mainScreen].bounds.size.height == 667)
+#define CJP_iPhone5 ([UIScreen mainScreen].bounds.size.height == 568)
+#define CJP_iPhone4 ([UIScreen mainScreen].bounds.size.height == 480)
+
+/*****系统适配****************/
+
+#define CJP_IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+
+/*****存储相关****************/
+
+#define CJP_userDefaults [NSUserDefaults standardUserDefaults]
+#define CJP_pathDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+#define CJP_pathCache  [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+
+//由角度获取弧度 有弧度获取角度
+#define degreesToRadian(x) (M_PI * (x) / 180.0)
+#define radianToDegrees(radian) (radian*180.0)/(M_PI)
